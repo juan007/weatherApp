@@ -188,6 +188,71 @@ ansiHTML.reset()
 
 /***/ }),
 
+/***/ "./src/Toolkit.js":
+/*!************************!*\
+  !*** ./src/Toolkit.js ***!
+  \************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "getRandom": () => (/* binding */ getRandom),
+/* harmony export */   "addKey": () => (/* binding */ addKey),
+/* harmony export */   "getXMLData": () => (/* binding */ getXMLData)
+/* harmony export */ });
+// randomly generates a number between the range of low and high
+function getRandom() {
+  var low = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+  var high = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 10;
+  var randomNumber; // calculate random number
+
+  randomNumber = Math.round(Math.random() * (high - low)) + low; // returning value
+
+  return randomNumber;
+}
+
+function addKey(functionToCall) {
+  var myCode = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "Enter";
+  document.addEventListener("keydown", function (e) {
+    // is the key released the specified key?
+    if (e.code === myCode) {
+      // pressing the enter key will force some browsers to refresh
+      // this command stops the event from going further
+      e.preventDefault(); // call provided callback to do everything else that needs to be done
+
+      functionToCall(); // this also helps the event from propagating in some browsers
+
+      return false;
+    }
+  });
+} // ----------------------------------------- challenge solution
+
+
+function getXMLData(retrieveScript, success, failure) {
+  // send out AJAX request
+  var xhr = new XMLHttpRequest();
+  xhr.addEventListener("load", function (e) {
+    // has the response been received successfully?
+    if (xhr.status == 200) {
+      // data retrieved - call success method and pass along XML object response
+      success(xhr.responseXML);
+    } else {
+      failure();
+    }
+  });
+  xhr.addEventListener("error", function (e) {
+    failure();
+  });
+  xhr.open("GET", retrieveScript, true);
+  xhr.send();
+} // ------------------------------------------------------------
+
+
+
+
+/***/ }),
+
 /***/ "./node_modules/events/events.js":
 /*!***************************************!*\
   !*** ./node_modules/events/events.js ***!
@@ -2815,7 +2880,7 @@ module.exports.formatError = function (err) {
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("8d7ccfae6824a0e3d466")
+/******/ 		__webpack_require__.h = () => ("ccb3529f04256b81af9e")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
@@ -3139,10 +3204,76 @@ var socketURL = (0,_utils_createSocketURL_js__WEBPACK_IMPORTED_MODULE_8__["defau
   \*********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _sass_styles_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../sass/styles.scss */ "./sass/styles.scss");
+/* harmony import */ var _Toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Toolkit */ "./src/Toolkit.js");
 // importing the sass stylesheet for bundling
- // ----------------------------------------------- main method
 
-function main() {}
+
+var citiesXML;
+var cityWeatherXML; //reference the city select
+
+var cityList; //number of cities
+
+var cityCount;
+var cityWeatherCount;
+var SOURCE = "http://localhost:3000/cities.xml"; //PRIVATE METHODS
+
+function populateContent() {
+  var txtClouds = cityWeatherXML.querySelectorAll("clouds")[0].getAttribute("name");
+  console.log(txtClouds);
+}
+
+function populateList() {
+  for (var i = 0; i < cityCount; i++) {
+    var option = document.createElement("option");
+    option.text = citiesXML.querySelectorAll("name")[i].textContent + ", " + citiesXML.querySelectorAll("province")[i].textContent;
+    option.name = citiesXML.querySelectorAll("name")[i].textContent;
+    cityList.add(option);
+  }
+
+  cityList.addEventListener("change", onListItemChanged);
+} // ----------------------------------EVENT HANDLERS
+//Function called when API loads
+
+
+function onApiLoaded(result) {
+  cityWeatherXML = result;
+  cityWeatherCount = cityWeatherXML.querySelectorAll("current").length;
+
+  if (cityWeatherCount == 1) {
+    populateContent();
+  }
+} //list event handler
+
+
+function onListItemChanged(e) {
+  var option = cityList.selectedOptions[0];
+  var apiURL = "http://api.openweathermap.org/data/2.5/weather?q=" + option.name + ",CA&mode=xml&appid=6983b0f0351df4922a129a07e4b832b9";
+  (0,_Toolkit__WEBPACK_IMPORTED_MODULE_1__.getXMLData)(apiURL, onApiLoaded, onError);
+} //when xml is loaded
+
+
+function onLoaded(result) {
+  citiesXML = result; //number of cities
+
+  cityCount = citiesXML.querySelectorAll("city").length;
+
+  if (cityCount > 0) {
+    populateList();
+    onListItemChanged();
+  }
+} //if an error occurs in getting the xml data
+
+
+function onError(e) {
+  console.log("Error: Ajax request problem");
+} // ----------------------------------------------- main method
+
+
+function main() {
+  cityList = document.querySelector(".selector__city"); //construct the XMLHttpRequest object
+
+  (0,_Toolkit__WEBPACK_IMPORTED_MODULE_1__.getXMLData)(SOURCE, onLoaded, onError);
+}
 
 main();
 })();
