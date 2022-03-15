@@ -63,7 +63,7 @@ body {
 }
 
 .weather-desc {
-  padding-top: 10px;
+  padding-top: 15px;
 }
 .weather-desc__description {
   font-weight: bolder;

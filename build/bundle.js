@@ -2893,7 +2893,7 @@ module.exports.formatError = function (err) {
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("090af2eb88ab393b8cff")
+/******/ 		__webpack_require__.h = () => ("d3cc90ecd3c719a4709d")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
@@ -3245,7 +3245,7 @@ function populateContent() {
   //OUTPUT DATA according to selected city
   //get cloud dinamically according to weather number
   var weatherNumber = cityWeatherXML.querySelectorAll("weather")[0].getAttribute("number");
-  document.querySelector(".weather-desc>i").className = "wi wi-owm-" + weatherNumber + " wi-fw"; //align cloud left
+  document.querySelector(".weather-desc>i").className = "wi wi-owm-" + weatherNumber + " wi-fw"; //align cloud icon to the left
 
   document.querySelector(".weather-desc>i").style = "text-align: left;";
   document.querySelector(".weather-desc__description").innerHTML = cityWeatherXML.querySelectorAll("clouds")[0].getAttribute("name");
@@ -3282,6 +3282,7 @@ function populateList() {
     var option = document.createElement("option");
     option.text = citiesXML.querySelectorAll("name")[i].textContent + ", " + citiesXML.querySelectorAll("province")[i].textContent;
     option.name = citiesXML.querySelectorAll("name")[i].textContent;
+    option.id = i;
     cityList.add(option);
   }
 
@@ -3302,24 +3303,28 @@ function onApiLoaded(result) {
 
 
 function onListItemChanged(e) {
-  //hide error and show content
+  var option = cityList.selectedOptions[0];
+  window.localStorage.setItem("savedCityIndex", option.id); //hide error and show content
+
+  document.querySelector(".footer").style = "padding-top: 50px;";
   document.querySelector(".error").style.display = "none";
   document.querySelector(".main-content").style.display = "flex";
   document.querySelector(".weather-desc").style.display = "block";
-  var option = cityList.selectedOptions[0];
   var apiURL = "http://api.openweathermap.org/data/2.5/weather?q=" + option.name + ",CA&mode=xml&appid=6983b0f0351df4922a129a07e4b832b9";
   (0,_Toolkit__WEBPACK_IMPORTED_MODULE_2__.getXMLData)(apiURL, onApiLoaded, onError);
 } //when xml is loaded
 
 
 function onLoaded(result) {
-  citiesXML = result;
-  console.log("test" + citiesXML.querySelectorAll("Alberta")[1]); //number of cities
+  citiesXML = result; //number of cities
 
   cityCount = citiesXML.querySelectorAll("city").length;
 
   if (cityCount > 0) {
     populateList();
+    console.log("stored index.-" + window.localStorage.getItem("savedCityIndex"));
+    document.querySelector(".selector__city").selectedIndex = window.localStorage.getItem("savedCityIndex");
+    console.log("index:-" + document.querySelector(".selector__city").selectedIndex);
     onListItemChanged();
   }
 } //if an error occurs in getting the xml data or api
@@ -3327,6 +3332,7 @@ function onLoaded(result) {
 
 function onError(e) {
   //show error
+  document.querySelector(".footer").style = "padding-top: 400px;";
   document.querySelector(".main-content").style.display = "none";
   document.querySelector(".weather-desc").style.display = "none";
   document.querySelector(".error").style.display = "block";
