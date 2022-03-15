@@ -25,7 +25,7 @@ body {
   padding-left: 20px;
   display: grid;
   grid-template-columns: auto;
-  grid-template-rows: 60px 60px 160px 180px 60px;
+  grid-template-rows: 60px 60px 170px 180px 60px;
   grid-gap: 0px;
 }
 
@@ -68,6 +68,7 @@ body {
 .weather-desc__description {
   font-weight: bolder;
   font-size: 2em;
+  padding-top: 8px;
 }
 .weather-desc__city {
   font-weight: bolder;
@@ -138,7 +139,7 @@ body {
 @font-face {
   font-family: "weathericons";
   src: url(/bb2ec001c20cf752f852.eot);
-  src: url(/bb2ec001c20cf752f852.eot?#iefix) format("embedded-opentype"), url(/e218aee6928fe3da9ed6.woff2) format("woff2"), url(/371511ddba5fdac0538c.woff) format("woff"), url(/0942d1e1c447d6ce3ffc.ttf) format("truetype"), url(/1341a15172cec8dae06e.svg#weather_iconsregular) format("svg");
+  src: url(/bb2ec001c20cf752f852.eot?#iefix) format("embedded-opentype"), url(/e218aee6928fe3da9ed6.woff2) format("woff2"), url(/371511ddba5fdac0538c.woff) format("woff"), url(/0942d1e1c447d6ce3ffc.ttf) format("truetype"), url(/86a76ca5e882e8285706.svg#weather_iconsregular) format("svg");
   font-weight: normal;
   font-style: normal;
 }

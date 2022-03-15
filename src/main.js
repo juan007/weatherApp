@@ -35,7 +35,15 @@ function convertToC(myK)
 //function that populates content according to chosen city
 function populateContent()
 {
-    //output data
+    //OUTPUT DATA according to selected city
+    
+    //get cloud dinamically according to weather number
+    let weatherNumber = cityWeatherXML.querySelectorAll("weather")[0].getAttribute("number");
+    document.querySelector(".weather-desc>i").className = "wi wi-owm-" + weatherNumber + " wi-fw";
+    
+    //align cloud left
+    document.querySelector(".weather-desc>i").style = "text-align: left;";
+    
     document.querySelector(".weather-desc__description").innerHTML = cityWeatherXML.querySelectorAll("clouds")[0].getAttribute("name");
     document.querySelector(".weather-desc__city").innerHTML = cityList.selectedOptions[0].text;
     temperature = parseFloat(cityWeatherXML.querySelectorAll("temperature")[0].getAttribute("value"));
