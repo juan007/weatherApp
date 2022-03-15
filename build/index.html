@@ -8,47 +8,55 @@
 		<link rel="stylesheet" type="text/css" href="./bundle.css" />
     </head>
     <body>
-        <div class="header">
-            <div class ="header__title">_Weather Reporter</div>
-            <div class ="header__version">Client Side Programming Project I (Version 1.0)</div>
-        </div>
-        <div class="selector">
-            <div class ="selector__label">Select a Canadian city to see the current weather report:</div>
-            <select class ="selector__city"></select>
-        </div>
-        <div class="weather-desc">
-            <img class="weather-desc__icon" src="images/x.png" alt="Weather Icon"/>
-            <div class ="weather-desc__description"></div>
-            <div class ="weather-desc__city"></div>
-        </div>
-        <div class="main-content">
-            <div class = "main-content__temperature">
-                <div class="main-content__temperature__title">Temperature</div>
-                <div class="main-content__temperature__current"></div>
-                <div class="main-content__temperature__low"></div>
-                <div class="main-content__temperature__high"></div>
-                <div class="main-content__temperature__feels"></div>
+        <div class = "page">
+            <div class="header">
+                <div class ="header__title">_Weather Reporter</div>
+                <div class ="header__version">Client Side Programming Project I (Version 1.0)</div>
             </div>
-            <div class = "main-content__precipitation">
-                <div class="main-content__precipitation__title">Precipitation</div>
-                <div class="main-content__precipitation__value"></div>
+            <div class="selector">
+                <div class ="selector__label">Select a Canadian city to see the current weather report:</div>
+                <select class ="selector__city"></select>
             </div>
-            <div class = "main-content__humidity">
-                <div class="main-content__humidity__title">Humidity</div>
-                <div class="main-content__humidity__value"></div>
+            <div class="weather-desc">
+                <i class="wi wi-owm-804 wi-fw" style="text-align: left;"></i>
+                <div class ="weather-desc__description"></div>
+                <div class ="weather-desc__city"></div>
             </div>
-            <div class = "main-content__pressure">
-                <div class="main-content__pressure__title">Air Pressure</div>
-                <div class="main-content__pressure__value"></div>
+            
+            <div class="main-content" style="display: flex; flex-direction: row;">
+                <div class = "main-content__temperature">
+                    
+                    <div class="main-content__temperature__title"><i class="wi wi-thermometer"></i> Temperature</div>
+                    <div class="main-content__temperature__current"></div>
+                    <div class="main-content__temperature__low"></div>
+                    <div class="main-content__temperature__high"></div>
+                    <div class="main-content__temperature__feels"></div>
+                </div>
+                <div class = "main-content__precipitation">
+                    <div class="main-content__precipitation__title"><i class="wi wi-rain"></i> Precipitation</div>
+                    <div class="main-content__precipitation__value"></div>
+                </div>
+                <div class = "main-content__humidity">
+                    <div class="main-content__humidity__title"><i class="wi wi-humidity"></i> Humidity</div>
+                    <div class="main-content__humidity__value"></div>
+                </div>
+                <div class = "main-content__pressure">
+                    <div class="main-content__pressure__title"><i class="wi wi-barometer"></i> Air Pressure</div>
+                    <div class="main-content__pressure__value"></div>
+                </div>
+                <div class = "main-content__wind">
+                    <div class="main-content__wind__title"><i class="wi wi-wind towards-90-deg"></i> Wind</div>
+                    <div class="main-content__wind__direction"></div>
+                    <div class="main-content__wind__strength"></div>
+                    <div class="main-content__wind__speed"></div>
+                </div>
             </div>
-            <div class = "main-content__wind">
-                <div class="main-content__wind__title">Wind</div>
-                <div class="main-content__wind__direction"></div>
-                <div class="main-content__wind__strength"></div>
-                <div class="main-content__wind__speed"></div>
-            </div>
+            
             <div class = "footer">
-                <div class="footer__text">Powerd by <a href="#">openweathermap</a> | <a href="#">weather-icons</a></div>
+                <div class="footer__text">Powerd by <a href="https://openweathermap.org/" target="_blank">openweathermap</a> | <a href="https://erikflowers.github.io/weather-icons/" target="_blank">weather-icons</a></div>
+            </div>
+            <div class = "error" >
+                CITY NOT FOUND!
             </div>
         </div>
 

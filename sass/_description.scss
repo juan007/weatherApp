@@ -1,0 +1,13 @@
+//description
+.weather-desc {
+    padding-top: 10px;
+    
+    &__description{
+        font-weight: bolder;
+        font-size: 2em;
+    }
+    &__city{
+        font-weight: bolder;
+        font-size: 1.5em;
+    }
+}

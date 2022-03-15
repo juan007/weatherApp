@@ -1,0 +1,20 @@
+//result
+@use "./mixins";
+.main-content {
+    @include mixins.flex-display();
+    flex-direction: row;
+    font-size: 1em;
+
+    &>div{
+        padding-right: 20px;    
+    }
+    
+    &__temperature__title, &__precipitation__title, &__humidity__title, &__pressure__title, &__wind__title {
+        font-weight: bolder;
+        font-size: 1.2em;
+        padding-bottom: 5px;
+    }
+    &__temperature > div:not(:first-child) {
+        padding-bottom: 5px;
+    }
+}
