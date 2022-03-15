@@ -1008,6 +1008,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./sass/weather-icons.scss":
+/*!*********************************!*\
+  !*** ./sass/weather-icons.scss ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./node_modules/webpack-dev-server/client/clients/WebSocketClient.js":
 /*!***************************************************************************!*\
   !*** ./node_modules/webpack-dev-server/client/clients/WebSocketClient.js ***!
@@ -2880,7 +2893,7 @@ module.exports.formatError = function (err) {
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("bb8594fc073894f439a8")
+/******/ 		__webpack_require__.h = () => ("8e2960f2cc92c6cee47e")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
@@ -3204,8 +3217,10 @@ var socketURL = (0,_utils_createSocketURL_js__WEBPACK_IMPORTED_MODULE_8__["defau
   \*********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _sass_styles_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../sass/styles.scss */ "./sass/styles.scss");
-/* harmony import */ var _Toolkit__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Toolkit */ "./src/Toolkit.js");
+/* harmony import */ var _sass_weather_icons_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../sass/weather-icons.scss */ "./sass/weather-icons.scss");
+/* harmony import */ var _Toolkit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Toolkit */ "./src/Toolkit.js");
 // importing the sass stylesheet for bundling
+
 
 
 var citiesXML;
@@ -3223,9 +3238,11 @@ var precipitationMode; //PRIVATE METHODS
 function convertToC(myK) {
   temperature = myK - 273.15;
   return temperature.toFixed(2);
-}
+} //function that populates content according to chosen city
+
 
 function populateContent() {
+  //output data
   document.querySelector(".weather-desc__description").innerHTML = cityWeatherXML.querySelectorAll("clouds")[0].getAttribute("name");
   document.querySelector(".weather-desc__city").innerHTML = cityList.selectedOptions[0].text;
   temperature = parseFloat(cityWeatherXML.querySelectorAll("temperature")[0].getAttribute("value"));
@@ -3235,8 +3252,9 @@ function populateContent() {
   temperature = parseFloat(cityWeatherXML.querySelectorAll("temperature")[0].getAttribute("max"));
   document.querySelector(".main-content__temperature__high").innerHTML = convertToC(temperature) + " °C High";
   temperature = parseFloat(cityWeatherXML.querySelectorAll("feels_like")[0].getAttribute("value"));
-  document.querySelector(".main-content__temperature__feels").innerHTML = "Feels like " + convertToC(temperature) + " °C";
-  precipitationMode = cityWeatherXML.querySelectorAll("precipitation")[0].getAttribute("mode");
+  document.querySelector(".main-content__temperature__feels").innerHTML = "Feels like " + convertToC(temperature) + " °C"; //store precipitation mode
+
+  precipitationMode = cityWeatherXML.querySelectorAll("precipitation")[0].getAttribute("mode"); //show 0 if precipitation mode is 0 else show mm of precipitation
 
   if (precipitationMode == "no") {
     document.querySelector(".main-content__precipitation__value").innerHTML = "0 mm";
@@ -3246,13 +3264,15 @@ function populateContent() {
 
   document.querySelector(".main-content__humidity__value").innerHTML = cityWeatherXML.querySelectorAll("humidity")[0].getAttribute("value") + " %";
   document.querySelector(".main-content__pressure__value").innerHTML = cityWeatherXML.querySelectorAll("pressure")[0].getAttribute("value") + " hPa";
-  document.querySelector(".main-content__wind__direction").innerHTML = cityWeatherXML.querySelectorAll("direction")[0].getAttribute("name") + " Wind";
+  document.querySelector(".main-content__wind__direction").innerHTML = cityWeatherXML.querySelectorAll("direction")[0].getAttribute("name") + " wind";
   document.querySelector(".main-content__wind__strength").innerHTML = cityWeatherXML.querySelectorAll("speed")[0].getAttribute("name");
   var speedKMH = cityWeatherXML.querySelectorAll("speed")[0].getAttribute("value") * (36 / 10);
   document.querySelector(".main-content__wind__speed").innerHTML = speedKMH.toFixed(2) + " km/h speed";
-}
+} //Function to populate select
+
 
 function populateList() {
+  //add options to select and set properties
   for (var i = 0; i < cityCount; i++) {
     var option = document.createElement("option");
     option.text = citiesXML.querySelectorAll("name")[i].textContent + ", " + citiesXML.querySelectorAll("province")[i].textContent;
@@ -3273,18 +3293,23 @@ function onApiLoaded(result) {
   if (cityWeatherCount == 1) {
     populateContent();
   }
-} //list event handler
+} //select event handler
 
 
 function onListItemChanged(e) {
+  //hide error and show content
+  document.querySelector(".error").style.display = "none";
+  document.querySelector(".main-content").style.display = "flex";
+  document.querySelector(".weather-desc").style.display = "block";
   var option = cityList.selectedOptions[0];
   var apiURL = "http://api.openweathermap.org/data/2.5/weather?q=" + option.name + ",CA&mode=xml&appid=6983b0f0351df4922a129a07e4b832b9";
-  (0,_Toolkit__WEBPACK_IMPORTED_MODULE_1__.getXMLData)(apiURL, onApiLoaded, onError);
+  (0,_Toolkit__WEBPACK_IMPORTED_MODULE_2__.getXMLData)(apiURL, onApiLoaded, onError);
 } //when xml is loaded
 
 
 function onLoaded(result) {
-  citiesXML = result; //number of cities
+  citiesXML = result;
+  console.log("test" + citiesXML.querySelectorAll("Alberta")[1]); //number of cities
 
   cityCount = citiesXML.querySelectorAll("city").length;
 
@@ -3292,18 +3317,23 @@ function onLoaded(result) {
     populateList();
     onListItemChanged();
   }
-} //if an error occurs in getting the xml data
+} //if an error occurs in getting the xml data or api
 
 
 function onError(e) {
+  //show error
+  document.querySelector(".main-content").style.display = "none";
+  document.querySelector(".weather-desc").style.display = "none";
+  document.querySelector(".error").style.display = "block";
   console.log("Error: Ajax request problem");
 } // ----------------------------------------------- main method
 
 
 function main() {
+  //stablish select element
   cityList = document.querySelector(".selector__city"); //construct the XMLHttpRequest object
 
-  (0,_Toolkit__WEBPACK_IMPORTED_MODULE_1__.getXMLData)(SOURCE, onLoaded, onError);
+  (0,_Toolkit__WEBPACK_IMPORTED_MODULE_2__.getXMLData)(SOURCE, onLoaded, onError);
 }
 
 main();

@@ -1,0 +1,16 @@
+//selector
+.selector {
+    
+    &__label {
+        font-size: 0.9em;
+        padding-bottom: 10px;
+    }
+    &__city {
+        font-size: 0.8em;
+        height: 40px;
+        width:200px;
+        background-color: #538ac5;
+        color:#FFF;
+        padding-left: 5px;
+    }
+}
