@@ -6,7 +6,9 @@ import "./../node_modules/spin.js/spin.css";
 // import Spinner class
 import { Spinner } from "spin.js";
 
+//import ICONS
 import "./../sass/weather-icons.scss";
+import "./../sass/weather-icons-wind.min.scss";
 
 import { getXMLData } from "./Toolkit";
 
@@ -28,6 +30,12 @@ let temperature = 0.00;
 
 let precipitationMode;
 
+// for cloud icon
+let weatherNumber;
+
+//wind value for wind direction icon
+let windValue;
+
 //SPINNER
 let spinner = new Spinner({ color: '#FFFFFF', lines: 12 }).spin(document.querySelector(".loading-overlay"));
 let loadingOverlay;
@@ -48,11 +56,12 @@ function populateContent()
     //OUTPUT DATA according to selected city
     
     //get cloud dinamically according to weather number
-    let weatherNumber = cityWeatherXML.querySelectorAll("weather")[0].getAttribute("number");
+    weatherNumber = cityWeatherXML.querySelectorAll("weather")[0].getAttribute("number");
     document.querySelector(".weather-desc>i").className = "wi wi-owm-" + weatherNumber + " wi-fw";
-    
+
     //align cloud icon to the left
     document.querySelector(".weather-desc>i").style = "text-align: left;";
+
     
     document.querySelector(".weather-desc__description").innerHTML = cityWeatherXML.querySelectorAll("clouds")[0].getAttribute("name");
     document.querySelector(".weather-desc__city").innerHTML = cityList.selectedOptions[0].text;
@@ -81,7 +90,23 @@ function populateContent()
     document.querySelector(".main-content__humidity__value").innerHTML = cityWeatherXML.querySelectorAll("humidity")[0].getAttribute("value") + " %";
     
     document.querySelector(".main-content__pressure__value").innerHTML = cityWeatherXML.querySelectorAll("pressure")[0].getAttribute("value") + " hPa";
-    document.querySelector(".main-content__wind__direction").innerHTML = cityWeatherXML.querySelectorAll("direction")[0].getAttribute("name") + " wind";
+    
+    //render wind direction icon
+    windValue = cityWeatherXML.querySelectorAll("direction")[0].getAttribute("value");
+    
+    if (windValue == null)
+    {
+        document.querySelector(".main-content__wind__direction").innerHTML = "no  wind info";
+        document.querySelector(".main-content__wind__title>i").className = "#";
+    }
+    else
+    {
+        document.querySelector(".main-content__wind__title>i").className = "wi wi-wind towards-" + windValue + "-deg";
+        document.querySelector(".main-content__wind__direction").innerHTML = cityWeatherXML.querySelectorAll("direction")[0].getAttribute("name") + " wind";
+    }
+    
+
+    
     document.querySelector(".main-content__wind__strength").innerHTML = cityWeatherXML.querySelectorAll("speed")[0].getAttribute("name");
     let speedKMH = cityWeatherXML.querySelectorAll("speed")[0].getAttribute("value") * (36/10);
     document.querySelector(".main-content__wind__speed").innerHTML = speedKMH.toFixed(2) + " km/h speed";
