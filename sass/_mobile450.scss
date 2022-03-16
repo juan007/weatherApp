@@ -1,0 +1,41 @@
+
+@media only screen and (max-width: 975px) {
+    
+    //page
+    .page {
+        grid-template-rows: 60px 60px 170px 400px 60px;
+    }
+
+    //selector
+    .selector {
+        &__label {
+            font-size: 0.7em;
+            
+        }
+    }
+
+    
+
+    //header
+    .header {
+        flex-direction: column;
+        align-items: flex-start;
+        font-size: 1.3em;
+        &__title {
+            //all extra pixels go into first item
+            flex-grow: 0;
+        }
+    }
+    //main
+    .main-content {
+        flex-direction: column;
+        font-size: 1em;
+    
+        &>div{
+            padding-top: 20px;    
+        }
+        
+        
+        
+    }
+}

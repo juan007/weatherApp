@@ -93,7 +93,6 @@ function populateContent()
     
     //render wind direction icon
     windValue = cityWeatherXML.querySelectorAll("direction")[0].getAttribute("value");
-    
     if (windValue == null)
     {
         document.querySelector(".main-content__wind__direction").innerHTML = "no  wind info";
@@ -104,8 +103,6 @@ function populateContent()
         document.querySelector(".main-content__wind__title>i").className = "wi wi-wind towards-" + windValue + "-deg";
         document.querySelector(".main-content__wind__direction").innerHTML = cityWeatherXML.querySelectorAll("direction")[0].getAttribute("name") + " wind";
     }
-    
-
     
     document.querySelector(".main-content__wind__strength").innerHTML = cityWeatherXML.querySelectorAll("speed")[0].getAttribute("name");
     let speedKMH = cityWeatherXML.querySelectorAll("speed")[0].getAttribute("value") * (36/10);
