@@ -1,5 +1,11 @@
 // importing the sass stylesheet for bundling
 import "./../sass/styles.scss";
+
+// importing Spin.js CSS library
+import "./../node_modules/spin.js/spin.css";
+// import Spinner class
+import { Spinner } from "spin.js";
+
 import "./../sass/weather-icons.scss";
 
 import { getXMLData } from "./Toolkit";
@@ -21,6 +27,10 @@ const SOURCE = "http://localhost:3000/cities.xml";
 let temperature = 0.00;
 
 let precipitationMode;
+
+//SPINNER
+let spinner = new Spinner({ color: '#FFFFFF', lines: 12 }).spin(document.querySelector(".loading-overlay"));
+let loadingOverlay;
 
 //PRIVATE METHODS
 
@@ -103,6 +113,10 @@ function onApiLoaded(result)
     if(cityWeatherCount == 1)
     {
         populateContent();
+        document.querySelector("body").style ="background-color: #fff;";
+        document.querySelector(".selector__city").disabled = false;
+        document.querySelector(".selector__city").style.backgroundColor = "#538ac5";
+        loadingOverlay.style.display = "none";
     }
 
 }
@@ -110,6 +124,10 @@ function onApiLoaded(result)
 //select event handler
 function onListItemChanged(e)
 {
+    document.querySelector("body").style.backgroundColor ="gray";
+    document.querySelector(".selector__city").style.backgroundColor = "#3D3D3D";
+    document.querySelector(".selector__city").disabled = true;
+    
     let option = cityList.selectedOptions[0];
     
     window.localStorage.setItem("savedCityIndex", option.id);
@@ -138,6 +156,7 @@ function onLoaded(result)
         document.querySelector(".selector__city").selectedIndex = window.localStorage.getItem("savedCityIndex");
         console.log("index:-" + document.querySelector(".selector__city").selectedIndex);
         onListItemChanged();
+        
     }
     
 }
@@ -151,11 +170,18 @@ function onError(e)
     document.querySelector(".weather-desc").style.display="none";
     document.querySelector(".error").style.display="block";
     console.log("Error: Ajax request problem");
+    document.querySelector("body").style ="background-color: #fff;";
+    document.querySelector(".selector__city").disabled = false;
+    document.querySelector(".selector__city").style.backgroundColor = "#538ac5";
+    loadingOverlay.style.display = "none";
+    
 }
 
 // ----------------------------------------------- main method
 function main() 
 {
+    loadingOverlay = document.querySelector(".loading-overlay");
+
     //stablish select element
     cityList = document.querySelector(".selector__city");
 
