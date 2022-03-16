@@ -1021,6 +1021,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./sass/weather-icons-wind.min.scss":
+/*!******************************************!*\
+  !*** ./sass/weather-icons-wind.min.scss ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./sass/weather-icons.scss":
 /*!*********************************!*\
   !*** ./sass/weather-icons.scss ***!
@@ -3111,7 +3124,7 @@ function convertOffset(x, y, degrees) {
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("69420eacca93d7629901")
+/******/ 		__webpack_require__.h = () => ("0a861994c898028a6471")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
@@ -3438,11 +3451,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_spin_js_spin_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../node_modules/spin.js/spin.css */ "./node_modules/spin.js/spin.css");
 /* harmony import */ var spin_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! spin.js */ "./node_modules/spin.js/spin.js");
 /* harmony import */ var _sass_weather_icons_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../sass/weather-icons.scss */ "./sass/weather-icons.scss");
-/* harmony import */ var _Toolkit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Toolkit */ "./src/Toolkit.js");
+/* harmony import */ var _sass_weather_icons_wind_min_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../sass/weather-icons-wind.min.scss */ "./sass/weather-icons-wind.min.scss");
+/* harmony import */ var _Toolkit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Toolkit */ "./src/Toolkit.js");
 // importing the sass stylesheet for bundling
  // importing Spin.js CSS library
 
  // import Spinner class
+
+ //import ICONS
 
 
 
@@ -3456,7 +3472,11 @@ var cityCount;
 var cityWeatherCount;
 var SOURCE = "http://localhost:3000/cities.xml";
 var temperature = 0.00;
-var precipitationMode; //SPINNER
+var precipitationMode; // for cloud icon
+
+var weatherNumber; //wind value for wind direction icon
+
+var windValue; //SPINNER
 
 var spinner = new spin_js__WEBPACK_IMPORTED_MODULE_2__.Spinner({
   color: '#FFFFFF',
@@ -3474,7 +3494,7 @@ function convertToC(myK) {
 function populateContent() {
   //OUTPUT DATA according to selected city
   //get cloud dinamically according to weather number
-  var weatherNumber = cityWeatherXML.querySelectorAll("weather")[0].getAttribute("number");
+  weatherNumber = cityWeatherXML.querySelectorAll("weather")[0].getAttribute("number");
   document.querySelector(".weather-desc>i").className = "wi wi-owm-" + weatherNumber + " wi-fw"; //align cloud icon to the left
 
   document.querySelector(".weather-desc>i").style = "text-align: left;";
@@ -3498,8 +3518,18 @@ function populateContent() {
   }
 
   document.querySelector(".main-content__humidity__value").innerHTML = cityWeatherXML.querySelectorAll("humidity")[0].getAttribute("value") + " %";
-  document.querySelector(".main-content__pressure__value").innerHTML = cityWeatherXML.querySelectorAll("pressure")[0].getAttribute("value") + " hPa";
-  document.querySelector(".main-content__wind__direction").innerHTML = cityWeatherXML.querySelectorAll("direction")[0].getAttribute("name") + " wind";
+  document.querySelector(".main-content__pressure__value").innerHTML = cityWeatherXML.querySelectorAll("pressure")[0].getAttribute("value") + " hPa"; //render wind direction icon
+
+  windValue = cityWeatherXML.querySelectorAll("direction")[0].getAttribute("value");
+
+  if (windValue == null) {
+    document.querySelector(".main-content__wind__direction").innerHTML = "no  wind info";
+    document.querySelector(".main-content__wind__title>i").className = "#";
+  } else {
+    document.querySelector(".main-content__wind__title>i").className = "wi wi-wind towards-" + windValue + "-deg";
+    document.querySelector(".main-content__wind__direction").innerHTML = cityWeatherXML.querySelectorAll("direction")[0].getAttribute("name") + " wind";
+  }
+
   document.querySelector(".main-content__wind__strength").innerHTML = cityWeatherXML.querySelectorAll("speed")[0].getAttribute("name");
   var speedKMH = cityWeatherXML.querySelectorAll("speed")[0].getAttribute("value") * (36 / 10);
   document.querySelector(".main-content__wind__speed").innerHTML = speedKMH.toFixed(2) + " km/h speed";
@@ -3548,7 +3578,7 @@ function onListItemChanged(e) {
   document.querySelector(".main-content").style.display = "flex";
   document.querySelector(".weather-desc").style.display = "block";
   var apiURL = "http://api.openweathermap.org/data/2.5/weather?q=" + option.name + ",CA&mode=xml&appid=6983b0f0351df4922a129a07e4b832b9";
-  (0,_Toolkit__WEBPACK_IMPORTED_MODULE_4__.getXMLData)(apiURL, onApiLoaded, onError);
+  (0,_Toolkit__WEBPACK_IMPORTED_MODULE_5__.getXMLData)(apiURL, onApiLoaded, onError);
 } //when xml is loaded
 
 
@@ -3586,7 +3616,7 @@ function main() {
 
   cityList = document.querySelector(".selector__city"); //construct the XMLHttpRequest object
 
-  (0,_Toolkit__WEBPACK_IMPORTED_MODULE_4__.getXMLData)(SOURCE, onLoaded, onError);
+  (0,_Toolkit__WEBPACK_IMPORTED_MODULE_5__.getXMLData)(SOURCE, onLoaded, onError);
 }
 
 main();
