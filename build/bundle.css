@@ -125,6 +125,33 @@ body {
 .error {
   display: none;
 }
+
+@media only screen and (max-width: 975px) {
+  .page {
+    grid-template-rows: 60px 60px 170px 400px 60px;
+  }
+
+  .selector__label {
+    font-size: 0.7em;
+  }
+
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+    font-size: 1.3em;
+  }
+  .header__title {
+    flex-grow: 0;
+  }
+
+  .main-content {
+    flex-direction: column;
+    font-size: 1em;
+  }
+  .main-content > div {
+    padding-top: 20px;
+  }
+}
 /*!*************************************************************************************************************!*\
   !*** css ./node_modules/css-loader/dist/cjs.js??ruleSet[1].rules[1].use[1]!./node_modules/spin.js/spin.css ***!
   \*************************************************************************************************************/
