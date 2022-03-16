@@ -995,6 +995,19 @@ Object.defineProperty(exports, "__esModule", ({value:true}));exports.fromCodePoi
 
 /***/ }),
 
+/***/ "./node_modules/spin.js/spin.css":
+/*!***************************************!*\
+  !*** ./node_modules/spin.js/spin.css ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+// extracted by mini-css-extract-plugin
+
+
+/***/ }),
+
 /***/ "./sass/styles.scss":
 /*!**************************!*\
   !*** ./sass/styles.scss ***!
@@ -2838,6 +2851,211 @@ module.exports.formatError = function (err) {
 };
 
 
+/***/ }),
+
+/***/ "./node_modules/spin.js/spin.js":
+/*!**************************************!*\
+  !*** ./node_modules/spin.js/spin.js ***!
+  \**************************************/
+/***/ ((__unused_webpack___webpack_module__, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "Spinner": () => (/* binding */ Spinner)
+/* harmony export */ });
+var __assign = (undefined && undefined.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+var defaults = {
+    lines: 12,
+    length: 7,
+    width: 5,
+    radius: 10,
+    scale: 1.0,
+    corners: 1,
+    color: '#000',
+    fadeColor: 'transparent',
+    animation: 'spinner-line-fade-default',
+    rotate: 0,
+    direction: 1,
+    speed: 1,
+    zIndex: 2e9,
+    className: 'spinner',
+    top: '50%',
+    left: '50%',
+    shadow: '0 0 1px transparent',
+    position: 'absolute',
+};
+var Spinner = /** @class */ (function () {
+    function Spinner(opts) {
+        if (opts === void 0) { opts = {}; }
+        this.opts = __assign(__assign({}, defaults), opts);
+    }
+    /**
+     * Adds the spinner to the given target element. If this instance is already
+     * spinning, it is automatically removed from its previous target by calling
+     * stop() internally.
+     */
+    Spinner.prototype.spin = function (target) {
+        this.stop();
+        this.el = document.createElement('div');
+        this.el.className = this.opts.className;
+        this.el.setAttribute('role', 'progressbar');
+        css(this.el, {
+            position: this.opts.position,
+            width: 0,
+            zIndex: this.opts.zIndex,
+            left: this.opts.left,
+            top: this.opts.top,
+            transform: "scale(" + this.opts.scale + ")",
+        });
+        if (target) {
+            target.insertBefore(this.el, target.firstChild || null);
+        }
+        drawLines(this.el, this.opts);
+        return this;
+    };
+    /**
+     * Stops and removes the Spinner.
+     * Stopped spinners may be reused by calling spin() again.
+     */
+    Spinner.prototype.stop = function () {
+        if (this.el) {
+            if (typeof requestAnimationFrame !== 'undefined') {
+                cancelAnimationFrame(this.animateId);
+            }
+            else {
+                clearTimeout(this.animateId);
+            }
+            if (this.el.parentNode) {
+                this.el.parentNode.removeChild(this.el);
+            }
+            this.el = undefined;
+        }
+        return this;
+    };
+    return Spinner;
+}());
+
+/**
+ * Sets multiple style properties at once.
+ */
+function css(el, props) {
+    for (var prop in props) {
+        el.style[prop] = props[prop];
+    }
+    return el;
+}
+/**
+ * Returns the line color from the given string or array.
+ */
+function getColor(color, idx) {
+    return typeof color == 'string' ? color : color[idx % color.length];
+}
+/**
+ * Internal method that draws the individual lines.
+ */
+function drawLines(el, opts) {
+    var borderRadius = (Math.round(opts.corners * opts.width * 500) / 1000) + 'px';
+    var shadow = 'none';
+    if (opts.shadow === true) {
+        shadow = '0 2px 4px #000'; // default shadow
+    }
+    else if (typeof opts.shadow === 'string') {
+        shadow = opts.shadow;
+    }
+    var shadows = parseBoxShadow(shadow);
+    for (var i = 0; i < opts.lines; i++) {
+        var degrees = ~~(360 / opts.lines * i + opts.rotate);
+        var backgroundLine = css(document.createElement('div'), {
+            position: 'absolute',
+            top: -opts.width / 2 + "px",
+            width: (opts.length + opts.width) + 'px',
+            height: opts.width + 'px',
+            background: getColor(opts.fadeColor, i),
+            borderRadius: borderRadius,
+            transformOrigin: 'left',
+            transform: "rotate(" + degrees + "deg) translateX(" + opts.radius + "px)",
+        });
+        var delay = i * opts.direction / opts.lines / opts.speed;
+        delay -= 1 / opts.speed; // so initial animation state will include trail
+        var line = css(document.createElement('div'), {
+            width: '100%',
+            height: '100%',
+            background: getColor(opts.color, i),
+            borderRadius: borderRadius,
+            boxShadow: normalizeShadow(shadows, degrees),
+            animation: 1 / opts.speed + "s linear " + delay + "s infinite " + opts.animation,
+        });
+        backgroundLine.appendChild(line);
+        el.appendChild(backgroundLine);
+    }
+}
+function parseBoxShadow(boxShadow) {
+    var regex = /^\s*([a-zA-Z]+\s+)?(-?\d+(\.\d+)?)([a-zA-Z]*)\s+(-?\d+(\.\d+)?)([a-zA-Z]*)(.*)$/;
+    var shadows = [];
+    for (var _i = 0, _a = boxShadow.split(','); _i < _a.length; _i++) {
+        var shadow = _a[_i];
+        var matches = shadow.match(regex);
+        if (matches === null) {
+            continue; // invalid syntax
+        }
+        var x = +matches[2];
+        var y = +matches[5];
+        var xUnits = matches[4];
+        var yUnits = matches[7];
+        if (x === 0 && !xUnits) {
+            xUnits = yUnits;
+        }
+        if (y === 0 && !yUnits) {
+            yUnits = xUnits;
+        }
+        if (xUnits !== yUnits) {
+            continue; // units must match to use as coordinates
+        }
+        shadows.push({
+            prefix: matches[1] || '',
+            x: x,
+            y: y,
+            xUnits: xUnits,
+            yUnits: yUnits,
+            end: matches[8],
+        });
+    }
+    return shadows;
+}
+/**
+ * Modify box-shadow x/y offsets to counteract rotation
+ */
+function normalizeShadow(shadows, degrees) {
+    var normalized = [];
+    for (var _i = 0, shadows_1 = shadows; _i < shadows_1.length; _i++) {
+        var shadow = shadows_1[_i];
+        var xy = convertOffset(shadow.x, shadow.y, degrees);
+        normalized.push(shadow.prefix + xy[0] + shadow.xUnits + ' ' + xy[1] + shadow.yUnits + shadow.end);
+    }
+    return normalized.join(', ');
+}
+function convertOffset(x, y, degrees) {
+    var radians = degrees * Math.PI / 180;
+    var sin = Math.sin(radians);
+    var cos = Math.cos(radians);
+    return [
+        Math.round((x * cos + y * sin) * 1000) / 1000,
+        Math.round((-x * sin + y * cos) * 1000) / 1000,
+    ];
+}
+
+
 /***/ })
 
 /******/ 	});
@@ -2893,7 +3111,7 @@ module.exports.formatError = function (err) {
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("d3cc90ecd3c719a4709d")
+/******/ 		__webpack_require__.h = () => ("69420eacca93d7629901")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
@@ -3217,9 +3435,15 @@ var socketURL = (0,_utils_createSocketURL_js__WEBPACK_IMPORTED_MODULE_8__["defau
   \*********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _sass_styles_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../sass/styles.scss */ "./sass/styles.scss");
-/* harmony import */ var _sass_weather_icons_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../sass/weather-icons.scss */ "./sass/weather-icons.scss");
-/* harmony import */ var _Toolkit__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Toolkit */ "./src/Toolkit.js");
+/* harmony import */ var _node_modules_spin_js_spin_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../node_modules/spin.js/spin.css */ "./node_modules/spin.js/spin.css");
+/* harmony import */ var spin_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! spin.js */ "./node_modules/spin.js/spin.js");
+/* harmony import */ var _sass_weather_icons_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../sass/weather-icons.scss */ "./sass/weather-icons.scss");
+/* harmony import */ var _Toolkit__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./Toolkit */ "./src/Toolkit.js");
 // importing the sass stylesheet for bundling
+ // importing Spin.js CSS library
+
+ // import Spinner class
+
 
 
 
@@ -3232,7 +3456,13 @@ var cityCount;
 var cityWeatherCount;
 var SOURCE = "http://localhost:3000/cities.xml";
 var temperature = 0.00;
-var precipitationMode; //PRIVATE METHODS
+var precipitationMode; //SPINNER
+
+var spinner = new spin_js__WEBPACK_IMPORTED_MODULE_2__.Spinner({
+  color: '#FFFFFF',
+  lines: 12
+}).spin(document.querySelector(".loading-overlay"));
+var loadingOverlay; //PRIVATE METHODS
 //function to convert K to C
 
 function convertToC(myK) {
@@ -3298,11 +3528,18 @@ function onApiLoaded(result) {
 
   if (cityWeatherCount == 1) {
     populateContent();
+    document.querySelector("body").style = "background-color: #fff;";
+    document.querySelector(".selector__city").disabled = false;
+    document.querySelector(".selector__city").style.backgroundColor = "#538ac5";
+    loadingOverlay.style.display = "none";
   }
 } //select event handler
 
 
 function onListItemChanged(e) {
+  document.querySelector("body").style.backgroundColor = "gray";
+  document.querySelector(".selector__city").style.backgroundColor = "#3D3D3D";
+  document.querySelector(".selector__city").disabled = true;
   var option = cityList.selectedOptions[0];
   window.localStorage.setItem("savedCityIndex", option.id); //hide error and show content
 
@@ -3311,7 +3548,7 @@ function onListItemChanged(e) {
   document.querySelector(".main-content").style.display = "flex";
   document.querySelector(".weather-desc").style.display = "block";
   var apiURL = "http://api.openweathermap.org/data/2.5/weather?q=" + option.name + ",CA&mode=xml&appid=6983b0f0351df4922a129a07e4b832b9";
-  (0,_Toolkit__WEBPACK_IMPORTED_MODULE_2__.getXMLData)(apiURL, onApiLoaded, onError);
+  (0,_Toolkit__WEBPACK_IMPORTED_MODULE_4__.getXMLData)(apiURL, onApiLoaded, onError);
 } //when xml is loaded
 
 
@@ -3337,14 +3574,19 @@ function onError(e) {
   document.querySelector(".weather-desc").style.display = "none";
   document.querySelector(".error").style.display = "block";
   console.log("Error: Ajax request problem");
+  document.querySelector("body").style = "background-color: #fff;";
+  document.querySelector(".selector__city").disabled = false;
+  document.querySelector(".selector__city").style.backgroundColor = "#538ac5";
+  loadingOverlay.style.display = "none";
 } // ----------------------------------------------- main method
 
 
 function main() {
-  //stablish select element
+  loadingOverlay = document.querySelector(".loading-overlay"); //stablish select element
+
   cityList = document.querySelector(".selector__city"); //construct the XMLHttpRequest object
 
-  (0,_Toolkit__WEBPACK_IMPORTED_MODULE_2__.getXMLData)(SOURCE, onLoaded, onError);
+  (0,_Toolkit__WEBPACK_IMPORTED_MODULE_4__.getXMLData)(SOURCE, onLoaded, onError);
 }
 
 main();

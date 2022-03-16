@@ -31,3 +31,16 @@ body {
     grid-template-rows: 60px 60px 170px 180px 60px;
     grid-gap: 0px;
 }
+
+.loading-overlay {
+    position: fixed;
+    z-index: 999;
+    left:0px;
+    top:0px;
+    right:0px;
+    bottom:0px;
+    overflow: show;
+    margin: auto;
+    display:block;
+    background-color: #538ac5;
+}
