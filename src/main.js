@@ -7,8 +7,8 @@ import "./../node_modules/spin.js/spin.css";
 import { Spinner } from "spin.js";
 
 //import ICONS
-import "./../sass/weather-icons.scss";
-import "./../sass/weather-icons-wind.min.scss";
+import "./../sass/weather-icons/weather-icons.min.scss";
+import "./../sass/weather-icons/weather-icons-wind.min.scss";
 
 import { getXMLData } from "./Toolkit";
 
