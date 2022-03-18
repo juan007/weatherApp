@@ -1021,10 +1021,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./sass/weather-icons-wind.min.scss":
-/*!******************************************!*\
-  !*** ./sass/weather-icons-wind.min.scss ***!
-  \******************************************/
+/***/ "./sass/weather-icons/weather-icons-wind.min.scss":
+/*!********************************************************!*\
+  !*** ./sass/weather-icons/weather-icons-wind.min.scss ***!
+  \********************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1034,10 +1034,10 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./sass/weather-icons.scss":
-/*!*********************************!*\
-  !*** ./sass/weather-icons.scss ***!
-  \*********************************/
+/***/ "./sass/weather-icons/weather-icons.min.scss":
+/*!***************************************************!*\
+  !*** ./sass/weather-icons/weather-icons.min.scss ***!
+  \***************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -3124,7 +3124,7 @@ function convertOffset(x, y, degrees) {
 /******/ 	
 /******/ 	/* webpack/runtime/getFullHash */
 /******/ 	(() => {
-/******/ 		__webpack_require__.h = () => ("89f4b753158211488fa0")
+/******/ 		__webpack_require__.h = () => ("994e387c1cd95a49da04")
 /******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
@@ -3450,8 +3450,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _sass_styles_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./../sass/styles.scss */ "./sass/styles.scss");
 /* harmony import */ var _node_modules_spin_js_spin_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./../node_modules/spin.js/spin.css */ "./node_modules/spin.js/spin.css");
 /* harmony import */ var spin_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! spin.js */ "./node_modules/spin.js/spin.js");
-/* harmony import */ var _sass_weather_icons_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../sass/weather-icons.scss */ "./sass/weather-icons.scss");
-/* harmony import */ var _sass_weather_icons_wind_min_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../sass/weather-icons-wind.min.scss */ "./sass/weather-icons-wind.min.scss");
+/* harmony import */ var _sass_weather_icons_weather_icons_min_scss__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./../sass/weather-icons/weather-icons.min.scss */ "./sass/weather-icons/weather-icons.min.scss");
+/* harmony import */ var _sass_weather_icons_weather_icons_wind_min_scss__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./../sass/weather-icons/weather-icons-wind.min.scss */ "./sass/weather-icons/weather-icons-wind.min.scss");
 /* harmony import */ var _Toolkit__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./Toolkit */ "./src/Toolkit.js");
 // importing the sass stylesheet for bundling
  // importing Spin.js CSS library
